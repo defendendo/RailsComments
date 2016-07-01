@@ -1,0 +1,14 @@
+<div class="comment clearfix">
+  <div class="content">
+    <p class="comment_content">
+      <%= comm.comm %>
+    </p>
+    <p class="comment_author">
+      <%= comm.user.email %>
+    </p>
+  </div>
+  <div class="buttons">
+    <%= link_to "Edit", edit_post_comm_path(comm.post, comm) %>
+    <%= link_to "Delete", [comm.post, comm], method: :delete, data: { confirm: "Are you sure?" } %>
+  </div>
+</div>

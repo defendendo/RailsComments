@@ -1,8 +1,24 @@
 
-
-<h1> <%= @post.title %> </h1>
-<%= @post.content %>
-
-<%= link_to "Edit", edit_post_path(@post), class: "button" %>
-<%= link_to "Delete", post_path(@post), method: :delete, data: { confirm: "sure?" }, class: "button" %>
+<div id="post_content">
+  <h1>
+    <%= @post.title %>
+  </h1>
+  <p>
+    <%= @post.content %>
+  </p>
+  <div id="comments">
+    <h2>
+      <%= @post.comms.count %>
+      Comments
+    </h2>
+    <%= render @post.comms %>
+    <h3>Reply to thread</h3>
+    <%= render "comms/form" %>
+  </div>
+  <br/>
+  <hr/>
+  <br/>
+  <%= link_to "Edit", edit_post_path(@post), class: "button" %>
+  <%= link_to "Delete", post_path(@post), method: :delete, data: { confirm: "sure?" }, class: "button" %>
+</div>
 
