@@ -1,10 +1,14 @@
 class CommsController < ApplicationController
-	def create
-		@post = Post.find(params[:post_id])
-		@comm = @post.comms.create(params[:comm].permit(:comm))
-		@comm.user_id = current_user.id if current_user
-		@comm.save
+	
+	before_action :find_post
 
+	def new
+		@comm = @post.comms.new
+	end
+
+	def create
+		@comm = @post.comms.new(comm_params)
+		@comm.user_id = current_user.id if current_user
 		if @comm.save
 			redirect_to post_path(@post)
 		else
@@ -13,15 +17,13 @@ class CommsController < ApplicationController
 	end
 
 	def edit
-		@post = Post.find(params[:post_id])
 		@comm = @post.comms.find(params[:id])
 	end
 
 	def update
-		@post = Post.find(params[:post_id])
 		@comm = @post.comms.find(params[:id])
 
-		if @comm.update(params[:comm].permit(:comm))
+		if @comm.update(comm_params)
 			redirect_to post_path(@post)
 		else
 			render 'edit'
@@ -29,9 +31,16 @@ class CommsController < ApplicationController
 	end
 
 	def destroy
-		@post = Post.find(params[:post_id])
 		@comm = @post.comms.find(params[:id])
 		@comm.destroy
 		redirect_to post_path(@post)
 	end
+
+	def find_post
+		@post = Post.find(params[:post_id])
+	end
+
+	def comm_params
+    	params.require(:comm).permit(:comm)
+  	end
 end
